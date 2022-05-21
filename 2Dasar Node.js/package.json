@@ -10,5 +10,9 @@
     "start"
   ],
   "author": "cpupush",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3"
+  }
 }
