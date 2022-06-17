@@ -1,0 +1,6 @@
+list INDEX ID:
+1. BBRI
+2. BBCA
+3. BBNI
+4. BMRI
+5. ARTO
