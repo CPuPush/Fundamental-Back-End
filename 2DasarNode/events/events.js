@@ -21,9 +21,15 @@ pada fungsi tersebut kita dapat menentukan aksi berdasarkan sebuah kejadian.
 
 */
 const makeCoffee = ({name})=>{
-    console.log(`Kopi ${name.key} telah dibuat`);
+    console.log(`Kopi ${name} telah dibuat`);
 }
+
+const makeBill = (({price})=>{
+    console.log(`Bill sebesar ${price} telah dibuat`);
+})
+
 myEventEmitter.on('coffee-order', makeCoffee);
+myEventEmitter.on('coffee-order', makeBill);
 /*
 Fungsi on menerima 2 buah argumen, yang pertama adalah nama event dan yanag kedua adalah 
 listener atau fungsi yang akan dieksekusi ketika event terjadi. Dari kode diatas, jika terjadi
@@ -34,7 +40,11 @@ event 'coffee-order', maka akan fungsi makeCoffee akan dijalankan.
 bagaimana cara membangkitkan suatu event? setiap instance dari EventEmitter juga memiliki fungsi
 //?emit() yang berguna untuk membangkitkan event.
 */
-myEventEmitter.emit('coffee-order', {name:{key:"Tubruk"}})
+myEventEmitter.emit('coffee-order', {name:"tubruk", price:50000});
+// myEventEmitter.emit('coffee-order', {price:10000});
+
 /*
-Fungsi emit() menerima nilai argument sebanyak apapun 
+Fungsi emit() menerima nilai argument sebanyak apapun namun nilai yang pertama merupakan 
+nama dari evetnt yang akan dibangkitkan, argument kedua, atau kedua dan seterusnya adalah
+nilai yang akan digunakan untuk menjadi dari parameter fungsi listener.
 */
