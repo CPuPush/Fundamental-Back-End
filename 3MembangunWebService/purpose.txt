@@ -1,0 +1,4 @@
+1. Membangun web service menggunakan Node.js secara native
+2. Mengenal Node.js HTTP framework
+3. Membangun web service menggunakan hapi.js (node.js HTTP framework)
+4. membangun RESTful API Sederhana
