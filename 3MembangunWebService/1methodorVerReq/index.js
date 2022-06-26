@@ -35,13 +35,13 @@ const requestListener = (request, response)=>{
 
     const method = request.method;
     if(method === "GET"){
-        response.end('<h1>This is GET</h1>')
+        response.end('<h1>THIS IS GET</h1>')
     }
     if(method === "POST"){
-        response.end('<h1>This is POST</h1>')
+        response.end('<h1>THIS IS POST</h1>')
     }
     if(method === "PUT"){
-        response.end('<h1>This is PUT</h1>')
+        response.end('<h1>THIS IS PUT</h1>')
     }
     if(method === "DELETE"){
         response.end("<h1>THIS IS DELETE</h1>")
