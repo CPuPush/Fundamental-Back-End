@@ -1,0 +1,14 @@
+/*
+//?Expressjs
+Expressjs merupakan web framework tertua dan terpopuler di Node.js saat ini. Framework ini sangat ringan ,mudah di integrasikan
+dengan applikasi web frontend, penulisan code tidak jauh berbeda dengan Nodejs native.
+Namun karena sifat ringan, framework ini menjadi unopinionated alias tidak memiliki aturan untuk menggunakannya.
+express tidak menyediakan struktur atau kerangka yang baku untuk diikuti oleh developer. sehingga developer menjadi sulit menentukan
+seperti apa kode yang optimal.
+bila ingin membangun server yang sederhana, mendukung app front-end di render disisi server, express pilihan
+
+//?Hapi
+menyediakan environment yang lengkap untuk mengembangkan web server yang kompleks. bila menggunakan Hapi
+kita tidak perlu tools lain untuk menerapkan layer //*authentication, tokenize, cors dll
+bila ingi membangun webserver yang kompleks tanpa membutuhkan effort yang besar hapi adalah pilihan
+*/
