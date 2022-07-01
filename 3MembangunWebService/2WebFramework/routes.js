@@ -31,6 +31,19 @@ const routes = [
         }
     },
     {
+        method : 'GET',
+        path : '/hello/{name?}',
+        handler : (request, h)=>{
+            const {name = 'strange'} = request.params;
+            const {lang} = request.query;
+            //Bila path memiliki kueri lang dengan nilai id
+            if(lang == 'id'){
+                return `Hai, ${name}`;
+            }
+            return `Hello ${name}`
+        }
+    },
+    {
         method:'*',
         path:'/{any*}',
         handler:(request, h)=>{
@@ -60,4 +73,21 @@ URL: <any> (selain “/’ dan “/about”)
     Mengembalikan pesan “Halaman tidak ditemukan”.
 
     
+*/
+/*
+//!2 path parameter
+membuat route dengan nilai path /hello/{name?}. bila client melampirkan nilai path parameter,
+server harus mengembalikan dengan pesan hello name,
+jika false maka hello stranger.
+
+//!3 Query Parameters
+
+menambah dukungan bahasa terhadap path /hello/{name} uamg sudah dibuat.
+bila path tersebut memiliki kueri lang dengan nilai id, maka server akan menanggapi
+dengan pesan "hai, ${name}" 
+running example
+curl -X GET http://localhost:5000/hello/dicoding?lang=id
+// output: Hai, dicoding!
+curl -X GET http://localhost:5000/hello/dicoding
+// output: Hello, dicoding!
 */
