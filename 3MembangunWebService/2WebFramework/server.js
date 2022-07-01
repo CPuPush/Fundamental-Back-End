@@ -54,7 +54,7 @@ pada hapi kita bisa membuat path parameter bersifat opsional. caranya dengan men
 //?{username?}
 server.route({
     method: 'GET',
-    path: '/users/{username?}',
+    //*path: '/users/{username?}',
     handler: (request, h) => {
         const { username = 'stranger' } = request.params;    
         return `Hello, ${username}!`;
@@ -79,7 +79,65 @@ server.route({
         return `Hello, ${name} from ${location}`;
     },
 });
+*/
 
-running 
+/*
+//! 4. Body/payload Request
+ketika menggunakan nodejs untuk mendapatkan data pada body request meskipun datanya hanya sebatas teks, 
+kita harus berurusan dengan Readable Stream.
+dimana untuk mendapatkan data melalui stream tak semudah seperti kita menginisialisasikan sebuah nilai pada variable.
+ketika menggunakan Hapi, tidak lagi berurusan dengan stream untuk mendapatkan datanya. dibalik layar, hapi secara default akan mengubah
+payload JSON menjadi objek JS. sehingga tidak lagi berurusan dengn JSON.parse()
+kapanpun client mengirimkan payload berupa JSON, payload tersebut dapat diakses pada route handler melalui properti
+request.payload
+server.route({
+    method: 'POST',
+    path: '/login',
+    handler: (request, h) => {
+        const { username, password } = request.payload;
+        return `Welcome ${username}!`;
+    },
+});
+contoh diatas handler menerima payload melalui request.payload. Dalam kasusm client mengirimkan data login dgn struktur
+{"username":"harrypotter", "password":"encryptedpassword"}
+
+//! 5. Response Toolkit
+fungsi handler pada hapi memiliki 2 paramter, request dan h.
+
+request parameter merupakan objek yang menampung detail dari permintaan client, seperti path dan query parameters,
+payload, headers, dsb.
+h yaitu huruf inisial Hapi. Parameter ini merupakan response toolkit dimana ia adalah objek 
+yang menampung banyak sekali method yang digunakan untuk menanggapi sebuah permintaan client. Objek ini serupa
+dengan objek response pada request handler ketika kita menggunakan NodeJS native.
+
+jika ingi mengembalikan nilai pada sebuah permintaan yang datang,
+//*di Hapi bisa secara langsung mengembalikan nilai dalam bentuk teks, HTML, json steam bahkan promise.
+sehingga kapan dibutuhkan h?
+bila kasusnya sederhana, memang lebih baik langsung kembalikan nilai secara eksplisit
+sehingga selalu bernilai 200 OK. ketika butuh mengubah niali status response, disitulah membutuhkan paramter h.
+server.route({
+    method: 'POST',
+    path: '/user',
+    handler: (request, h) => {
+        //?return h.response('created').code(201);
+    },
+});
+parameter h tidak berfungsi menetapkan status kode respons. melalui h, kita juga bisa menetapkan header response, content type,
+content length dan masih banyak lagi.
+// Detailed notation
+const handler = (request, h) => {
+    const response = h.response('success');
+    response.type('text/plain');
+    response.header('X-Custom', 'some-value');
+    return response;
+};
+ 
+// Chained notation
+const handler = (request, h) => {
+    return h.response('success')
+        .type('text/plain')
+        .header('X-Custom', 'some-value');
+};
+
 
 */
