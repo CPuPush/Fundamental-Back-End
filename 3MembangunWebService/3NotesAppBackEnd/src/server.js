@@ -256,5 +256,23 @@ disable "Block insecure private network requests" to access data from other orig
 /*//! 4. Menampilkan catatan
 1. konfig route tetapkan path dengan nilai '/notes' dan method dengan nilai 'GET'
 2. ketika klik atau path mengarah ke id, maka error. so we have to handle this
-3. caranya dengan mendapatkan id dengan req.param, 
+3. caranya dengan mendapatkan id dengan req.param, setelah itu id dari params url
+dicocokkan dengan id dari notes,
+*/
+/*//! 5. Mengubah Catatan
+Web server harus bisa mengubah catatan yang disimpan, baik perubahan pada title, tags, atau body.
+ketika melakukan perubahan client akan mengirimkan permintaan ke route //?'notes/{id}'
+dengan method 'PUT'dan membawa objek baru ke body request.
+1.  mendapatkan id dari request param
+2. mendapatkan title, tags, body
+3. memperbaharui updateAt using new Date().toISOString;
+4. selanjutnya memanfataakan indexing array pada objek catatan sesuai ID yang ditentukan. untuk menggunkaakannya
+//?findIndex()
+5. bila note dengan id yang dicari ditemukan makan index akan bernilai array index dari objek catatan yang dicari.
+bila tidak ditemukan maka index bernilai -1. so we can use this to make conditional.
+*/
+/*//! 6. Menghapus Catatan
+1. menghapus dengan route path '/notes/{id}', method 'DELETE'
+2. pada handler kita cari pada index ke berapa id dari params itu berada pada notes 
+3. lakukan pengkondisian untuk mekakukan penghapusan index
 */

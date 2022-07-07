@@ -58,5 +58,46 @@ const getNoteByIdHandler=(request, h)=>{
     response.code(404);
     return response;
 }
+
+//edit
+const editNoteByIdHandler=(request, h)=>{
+    const {id} = request.params;
+
+    const {title, tags, body} = request.payload;
+    const updateAt = new Date().toISOString;
+
+    const index = notes.findIndex((note)=> note.id = id);
+    if(index !== 1){
+        notes[index]={
+            ...notes[index],
+            title,
+            tags,
+            body,
+            updateAt,
+        };
+
+        const response = h.response({
+            status: 'success',
+            message:'catatan berhasil ditambahkan',
+        });
+        response.code(404);
+        return response;
+    }
+};
+// delete
+const deleteByIdHandler = (request, h)=>{
+    const {id} = request.params;
+    const index = notes.findIndex((note)=>note.id===id);
+    
+    if(index !== 1){
+        notes.splice(index, 1);
+        const response = h.response({
+            status:'succes',
+            message:'catatan berhasil dihapus',
+        });
+        response.code(200);
+        return response;
+    } 
+};
 // using object literal for module.exports=> untuk lebih dari satu nilai;
-module.exports = {addNoteHandler, getAllNotesHandler, getNoteByIdHandler};
+module.exports = {addNoteHandler, getAllNotesHandler, getNoteByIdHandler, editNoteByIdHandler};
