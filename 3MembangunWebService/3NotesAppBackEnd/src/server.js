@@ -184,8 +184,8 @@ if fail //? status code 404
 2. selanjutanya membuat array untuk menampung objek catatan pada berkas notes.js
 3. selanjutnta pada route handler dibuat secara terpisah //?addNoteHandler()
 4. client mengirim data title, tags, body yang akan disimpan dalam bentuk JSON melalui body request. using //? request.payload
-5. property id merupakan string dan harus unik, kita akan menggunakan bantuan //?nanoid dimana
-merupakan salah satu library populer untuk menangani ini. versi 3, karena 4 tidak mendukung require, just import
+5. property id merupakan string dan harus unik, kita akan menggunakan bantuan //?nanoid (npm install nanoid@3.x.x)
+dimana merupakan salah satu library populer untuk menangani ini. versi 3, karena 4 tidak mendukung require, just import
 6. createAt dan updateAt, nilai kedua properti tersebut seharusnya sama. jadi secara mudah memberi nilai
 //? new Date().toISOString();
 7. cara menentukan apakah newNote sudah masuk ke dalam array notes? kita bisa memanfaatkan method filter() berdasarkan id
