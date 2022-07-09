@@ -1,0 +1,8 @@
+Pada materi ini akan dibahas bagaimana cara deployment RESTful API yang sudah kita buat
+ke Amazon Elastic Compute Cloud atau sering dikenal dnegan Amazon EC2.
+Di akhir modul diharapkan dapat :
+1. Mengetahui Amazon EC2.
+2. Mendaftar Akun AWS
+3. Membuat dan Menjalankan Amazon EC2 Service
+4. Mengoperasikan Amazon EC2 selalui SSH
+5. Menjalankan RESTful API di Amazon EC2
