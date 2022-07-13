@@ -128,4 +128,207 @@ fixing:
 pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8')
 
 maka dataId sudah otomatis terkirim
+
+//! Skenario Getting All Notes
+//* Pastikan response memiliki status code 200.
+pm.test('response status should have 200 value',()=>{
+    pm.response.to.have.status(200);
+});
+//* Pastikan header response Content-Type memiliki nilai application/json.
+pm.test('response Content-Type header should have application/json value',()=>{
+    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');
+});
+//* Pastikan body response adalah object.
+pm.test('response body should an object',()=>{
+    const responseJson = pm.response.json();
+    pm.expect(responseJson).to.be.an('object');
+});
+//* Pastikan body response memiliki properti dan nilai atau tipe data yang sesuai.
+pm.test('response body should have the correct property and value',()=>{
+    const responseJson = pm.response.json();
+    pm.expect(responseJson).to.have.ownProperty('status');
+    pm.expect(responseJson.status).to.equals('success');
+    pm.expect(responseJson).to.have.ownProperty('data');
+    pm.expect(responseJson).to.be.an('object');
+});
+//* Pastikan data pada response body memiliki array notes dan terdapat minimal 1 item di dalamnya.
+pm.test('response body data should have a notes array and contain at least 1 item',()=>{
+    const responseJson = pm.response.json();
+    const {data} = responseJson;
+    pm.expect(data).to.have.ownProperty('notes');
+    pm.expect(data.notes).to.be.an('array');
+    pm.expect(data.notes).lengthOf.at.least(1);
+});
+pengujian dilakukan bahwa notes harus memiliki minimal 1 item
+*/
+/*//! Scenario Getting Specified Note
+//* Pastikan response memiliki status code 200.
+pm.test('response status code should have 200 value',()=>{
+    pm.response.to.have.status(200);
+});
+//* Pastikan header response Content-Type memiliki nilai application/json.
+pm.test('response Content-Type should have application/json value',()=>{
+    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8')
+});
+//* Pastikan body response merupakan object.
+pm.test('response body should object',()=>{
+    const responseJson = pm.response.json();
+    pm.expect(responseJson).to.be.an('object')
+});
+//* Pastikan body response memiliki properti dan nilai atau tipe data yang sesuai.
+pm.test('response body should have the correct property and value',()=>{
+    const responseJson = pm.response.json();
+
+    pm.expect(responseJson).to.have.ownProperty('status');
+    pm.expect(responseJson.status).to.equals('success');
+    pm.expect(responseJson).to.have.ownProperty('data');
+    pm.expect(responseJson.data).to.be.an('object');
+    
+});
+//* Pastikan data pada response body memiliki properti note yang merupakan sebuah objek.
+pm.test('response body data should containt note object',()=>{
+    const responseJson = pm.response.json();
+    pm.expect(responseJson).to.have.ownProperty('data');
+    pm.expect(responseJson.data).to.be.an('object')
+});
+//* Pastikan objek note di dalam data memiliki properti id, title, body, dan tags  dengan nilai yang sesuai.
+pm.test('note object should containt correct value for id, title, tags, body property',()=>{
+    const responseJson = pm.response.json();
+    const {data:{note}} = responseJson;
+
+    const expectedId = pm.environment.get('noteId');
+    const expectedTitle = 'Catatanku';
+    const expectedTags = ['Android', 'Web'];
+    const expectedBody = 'Isi dari catatan A';
+
+    pm.expect(note).to.have.ownProperty('id');
+    pm.expect(note.id).to.equals(expectedId);
+
+    pm.expect(note).to.have.ownProperty('title');
+    pm.expect(note.title).to.equals(expectedTitle);
+    
+    pm.expect(note).to.have.ownProperty('tags');
+    pm.expect(note.tags).to.eql(expectedTags);
+
+});
+//?equals => eql pada pengujian expectedTags
+Hal ini karena untuk pengujian nilai object dan array 
+kita tidak bisa menggunakan method equals().
+itu karena array dan objek tidaka bisa disamakan secara identik 
+walaupun ia memiliki item properti dan nilai yang sama persis.
+pengujian dilakukan dengan repl
+["Harry", "Potter"] === ["Harry", "Potter"]
+// -> false
+untuk cara pengujian dilakukan //?deep equals
+deep equals paling sederhana dapat dilakukan menggunakan bantuan JSON.stringify. 
+lebih jelasnya kedua objek atau array yang akan diuji diubah menjadi JSON string kemudian kedua
+JSON string tersebutlah yang akan diuji nilainya.
+//?JSON.stringify(["Harry", "Potter"]) === JSON.stringify(["Harry", "Potter"]);
+pada postman cukup ganti equals()=>eql
+*/
+/*//! Scenario Update Note
+//* Pastikan response memiliki status code 200.
+pm.test('response status code should have 200 value',()=>{
+    pm.response.to.have.status(200)
+});
+//* Pastikan header response Content-Type memiliki nilai application/json.
+pm.test('response Content-Type header should have application/json value',()=>{
+    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8')
+});
+//* Pastikan body response adalah object.
+pm.test('response body should be an object',()=>{
+    const responsJson = pm.response.json();
+    pm.expect(responsJson).to.be.an('object');
+});
+//* Pastikan body response memiliki properti dan nilai yang sesuai.
+pm.test('response body should have correct property and value',()=>{
+    const responseJson = pm.response.json();
+
+    pm.expect(responseJson).to.have.ownProperty('status');
+    pm.expect(responseJson.status).to.equals('success');
+    pm.expect(responseJson).to.have.ownProperty('message');
+    pm.expect(responseJson.message).to.equals('catatan berhasil diperbaharui')
+});
+//* Ketika mengakses catatan yang diperbaharui Pastikan catatan yang diperbarui memiliki nilai terbaru.
+pm.test('when request the updated note',()=>{
+    //dapatkan id dari environment
+    const noteId = pm.environment.get('noteId');
+    pm.sendRequest(`http://localhost:5000/notes/${noteId}`, (error, response)=>{
+        if(!error){
+            pm.test('then the updated note should contain the latest data',()=>{
+                const responseJson = response.json();
+                const {data:{note}} =responseJson;
+
+                const expectedTitle = 'Catatan A Revised';
+                const expectedTags = ['Android', 'Web'];
+                const expectedBody = 'Isi dari Catatan A Revised';
+
+                pm.expect(note.title).to.equals(expectedTitle);
+                pm.expect(note.tags).to.eql(expectedTags);
+                pm.expect(note.body).to.equals(expectedBody);
+            });
+        }
+    });
+});
+buat request ke http://localhost:5000/note/${noteId} dengan method //?pm.sendRequest()
+sendRequest menerima 2 parameter, dimana request URL dan fungsi response callback.
+ketika parameter error yang berada di response callback akan terisi nilainya. namun bila perminttan berhasil dilakukan
+dan mendapatkan reponse dari server, maka parameter response lah aygn terisi nilainya.
+pola ini disebut //?error first.
+dimana callback function mendahulukan parameter error dibandingkan dengan ketika operasi berhasil dijalankan.
+Node.js banyak menerapkan pola ini pada sebuha callback.
+
+ketika tidak ada error maka pengetesan untuk data yang diupdate akan dilakukan
+sama halnya menurut saya bahwa //* ketika put untuk data terakhir terkirim, maka dilakukan test untuk status, message,
+//*json, code 
+*/
+/*//! Delete Note
+Skenario 5: Delete Note (Menghapus catatan)
+//* Pastikan response memiliki status code 200.
+pm.test('response status code should have 200 value', () => {
+    pm.response.to.have.status(200);
+});
+//* Pastikan header response Content-Type memiliki nilai application/json.
+pm.test('response Content-Type header should have application/json value', () => {
+    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8')
+}); 
+//* Pastikan body response adalah object.
+pm.test('response body should be an object', () => {
+    const responseJson = pm.response.json();
+    pm.expect(responseJson).to.be.an('object');
+});
+//* Pastikan body response memiliki properti dan nilai yang sesuai.
+pm.test('response body should have correct property and value', () => {
+    const responseJson = pm.response.json();
+    pm.expect(responseJson).to.have.ownProperty('status');
+    pm.expect(responseJson.status).to.equals('success');
+    pm.expect(responseJson).to.have.ownProperty('message');
+    pm.expect(responseJson.message).to.equals('catatan berhasil dihapus');
+});
+//* Pastikan catatan yang dihapus tidak ditemukan, Ketika mengakses catatan yang dihapus.
+pm.test('whem request the deleted note',()=>{
+    const noteId = pm.environment.get('noteId');
+    pm.sendRequest(`http://localhost:5000/notes/${noteId}`,(error, response)=>{
+        if(!error){
+            pm.test('the deleted note should be not found',()=>{
+                pm.expect(response.code).to.equals(404);
+                const responseJson = response.json();
+                pm.expect(responseJson.status).to.equals('fail');
+                pm.expect(responseJson.message).to.equals('catatan tidak ditemukan');
+            });
+        }
+    });
+});
+sendRequest mencoba mendapatkan nilai dari id noteId,//?(get spesified note) jika tidak mendapatkan 
+response dari error maka nilai tidak akan ada
+karena ada repsonse dari server ketika noteId tidak ada
+maka dibuat condition ketika !error, maka code 404, status:'fail' dan message 'catatan tidak ditemukan'
+*/
+
+
+/*//! Menjalankan Seluruh Permintaan pada collection
+keuntungan mengelopokkan perminaan menggunakan collection bisa menjalankan permintaan permintan
+secara berurutan dengan sekali klik //? run.
+
+
 */
